@@ -145,7 +145,6 @@ cleanup() {
 
 trap cleanup SIGINT
 
-
 OLDIFS="$IFS"
 IFS=$'\n' scripts=(`pyenv-hooks install`)
 IFS="$OLDIFS"
