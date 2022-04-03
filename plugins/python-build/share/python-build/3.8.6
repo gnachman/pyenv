@@ -5,7 +5,7 @@ install_package "readline-8.0" "https://ftpmirror.gnu.org/readline/readline-8.0.
 install_package gdbm-1.18.1 "ftp://ftp.gnu.org/gnu/gdbm/gdbm-1.18.1.tar.gz" mac_gdbm --if has_broken_mac_readline
 install_package sqlite-autoconf-3290000 "https://www.sqlite.org/2019/sqlite-autoconf-3290000.tar.gz" mac_sqlite --if has_broken_mac_readline
 install_package xz-5.2.4 "https://sourceforge.net/projects/lzmautils/files/xz-5.2.4.tar.gz" mac_xz --if has_broken_mac_readline
-install_package zlib-1.2.11 "https://www.zlib.net/zlib-1.2.11.tar.gz" mac_zlib --if has_broken_mac_readline
+install_package zlib-1.2.12 "https://www.zlib.net/zlib-1.2.12.tar.gz" mac_zlib --if has_broken_mac_readline
 if has_tar_xz_support; then
   install_package "Python-3.8.6" "https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tar.xz#a9e0b79d27aa056eb9cce8d63a427b5f9bab1465dee3f942dcfdb25a82f4ab8a" standard verify_py38 copy_python_gdb ensurepip
 else
