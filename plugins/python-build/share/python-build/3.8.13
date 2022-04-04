@@ -4,11 +4,11 @@ export PYTHON_BUILD_CONFIGURE_WITH_OPENSSL=1
 export PYTHON_CFLAGS="-DOPENSSL_NO_SSL3${PYTHON_CFLAGS:+ $PYTHON_CFLAGS}"
 
 install_package "openssl-1.1.1n" "https://www.openssl.org/source/openssl-1.1.1n.tar.gz#40dceb51a4f6a5275bde0e6bf20ef4b91bfc32ed57c0552e2e8e15463372b17a" mac_openssl --if has_broken_mac_openssl
-install_package "readline-8.1" "https://ftpmirror.gnu.org/readline/readline-8.1.tar.gz#f8ceb4ee131e3232226a17f51b164afc46cd0b9e6cef344be87c65962cb82b02" mac_readline --if has_broken_mac_readline
-install_package gdbm-1.18.1 "ftp://ftp.gnu.org/gnu/gdbm/gdbm-1.18.1.tar.gz" mac_gdbm --if has_broken_mac_readline
-install_package sqlite-autoconf-3290000 "https://www.sqlite.org/2019/sqlite-autoconf-3290000.tar.gz" mac_sqlite --if has_broken_mac_readline
-install_package xz-5.2.4 "https://sourceforge.net/projects/lzmautils/files/xz-5.2.4.tar.gz" mac_xz --if has_broken_mac_readline
-install_package zlib-1.2.12 "https://www.zlib.net/zlib-1.2.12.tar.gz" mac_zlib --if has_broken_mac_readline
+install_package "readline-8.1" "https://ftpmirror.gnu.org/readline/readline-8.1.tar.gz#f8ceb4ee131e3232226a17f51b164afc46cd0b9e6cef344be87c65962cb82b02" mac_readline 
+install_package gdbm-1.18.1 "ftp://ftp.gnu.org/gnu/gdbm/gdbm-1.18.1.tar.gz" mac_gdbm
+install_package sqlite-autoconf-3290000 "https://www.sqlite.org/2019/sqlite-autoconf-3290000.tar.gz" mac_sqlite
+install_package xz-5.2.4 "https://sourceforge.net/projects/lzmautils/files/xz-5.2.4.tar.gz" mac_xz
+install_package zlib-1.2.12 "https://www.zlib.net/zlib-1.2.12.tar.gz" mac_zlib
 if has_tar_xz_support; then
   install_package "Python-3.8.13" "https://www.python.org/ftp/python/3.8.13/Python-3.8.13.tar.xz#6f309077012040aa39fe8f0c61db8c0fa1c45136763299d375c9e5756f09cf57" standard verify_py38 copy_python_gdb ensurepip
 else
