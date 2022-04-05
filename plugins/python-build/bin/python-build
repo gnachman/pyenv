@@ -860,7 +860,7 @@ build_package_warn_unsupported() {
 
 build_package_standard_build() {
   local package_name="$1"
-  echo "BUILD PACKAGE STANDARD $1"
+  echo "BUILD PACKAGE STANDARD BUILD $1"
   set -x
 
   if [ "${MAKEOPTS+defined}" ]; then
@@ -887,10 +887,12 @@ build_package_standard_build() {
       use_homebrew_readline || true
       use_homebrew_ncurses || true
       if is_mac -ge 1014; then
+        echo "BUILD PACKAGE STANDARD BUILD $1: calling use_xcode_sdk_zlib and use_homebrew_zlib"
         # While XCode SDK is "always available",
         # still need a fallback in case we are using an alternate compiler
         use_xcode_sdk_zlib || use_homebrew_zlib || true
       else
+        echo "BUILD PACKAGE STANDARD BUILD $1: calling use_homebrew_zlib"
         use_homebrew_zlib || true
       fi
     fi
@@ -930,6 +932,8 @@ build_package_standard_build() {
     fi
     if [[ -n "${!PACKAGE_LDFLAGS}" ]]; then
       export LDFLAGS="${LDFLAGS:+$LDFLAGS }${!PACKAGE_LDFLAGS}"
+      echo "BUILD PACKAGE STANDARD BUILD $1: flags=$CFLAGS package_cflags is $PACKAGE_CFLAGS"
+      echo "BUILD PACKAGE STANDARD BUILD: package_name=$1 CFLAGS=$CFLAGS CPPFLAGS=$CPPFLAGS LDFLAGS=$LDFLAGS"
     fi
     if [ -z "$CC" ] && is_mac -ge 1010; then
       export CC=clang
@@ -1701,20 +1705,14 @@ build_package_mac_readline() {
   # Tell Python to use this readline for its extension.
   export CPPFLAGS="-I${READLINE_PREFIX_PATH}/include${CPPFLAGS:+ $CPPFLAGS}"
   export LDFLAGS="-L${READLINE_PREFIX_PATH}/lib${LDFLAGS:+ $LDFLAGS}"
+  export CFLAGS="-I${READLINE_PREFIX_PATH}/include ${CFLAGS} -mmacosx-version-min=12.0"
+  echo "build_package_mac_readline: CFLAGS=$CFLAGS CPPFLAGS=$CPPFLAGS LDFLAGS=$LDFLAGS"
 
   # Make sure pkg-config finds our build first.
   export PKG_CONFIG_PATH="${READLINE_PREFIX_PATH}/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
   package_option readline configure --disable-shared
 
   build_package_standard "$@"
-}
-
-build_package_mac_gettext() {
-    package_option gettext configure --disable-shared
-    build_package_standard "$@"
-    GETTEXT_PREFIX_PATH="${PREFIX_PATH}/gettext"
-    export CPPFLAGS="-I${GETTEXT_PREFIX_PATH}/include ${CPPFLAGS}"
-    export LDFLAGS="-L${GETTEXT_PREFIX_PATH}/lib /usr/lib/libiconv.dylib ${LDFLAGS}"
 }
 
 build_package_mac_gdbm() {
@@ -1735,6 +1733,26 @@ build_package_mac_xz() {
 build_package_mac_zlib() {
     package_option zlib configure --static
     build_package_standard "$@"
+}
+
+link_gettext() {
+    echo "link_gettext using prefix path $PREFIX_PATH"
+    GETTEXT_PREFIX_PATH="${PREFIX_PATH}/gettext"
+    export LDFLAGS="${GETTEXT_PREFIX_PATH}/lib/libintl.a ${LDFLAGS}"
+}
+
+build_package_mac_gettext() {
+    echo "build_package_mac_gettext starting"
+    GETTEXT_PREFIX_PATH="${PREFIX_PATH}/gettext"
+    package_option gettext configure --disable-shared --disable-java
+    build_package_standard "$@"
+
+    export CFLAGS="-I${GETTEXT_PREFIX_PATH}/include ${CFLAGS}"
+    export CPPFLAGS="-I${GETTEXT_PREFIX_PATH}/include ${CFLAGS}"
+    export LDFLAGS="-L${GETTEXT_PREFIX_PATH}/lib ${LDFLAGS}"
+    echo "Look at what's in prefix_path:"
+    ls -l "${PREFIX_PATH}"
+    echo "CFLAGS=$CFLAGS LDFLAGS=$LDFLAGS"
 }
 
 has_broken_mac_openssl() {
