@@ -1705,7 +1705,8 @@ build_package_mac_readline() {
   # Tell Python to use this readline for its extension.
   export CPPFLAGS="-I${READLINE_PREFIX_PATH}/include${CPPFLAGS:+ $CPPFLAGS}"
   export LDFLAGS="-L${READLINE_PREFIX_PATH}/lib${LDFLAGS:+ $LDFLAGS}"
-  export CFLAGS="-I${READLINE_PREFIX_PATH}/include ${CFLAGS} -mmacosx-version-min=12.0"
+  # Tell gdbm to use this readline.
+  export CFLAGS="-I${READLINE_PREFIX_PATH}/include ${CFLAGS}"
   echo "build_package_mac_readline: CFLAGS=$CFLAGS CPPFLAGS=$CPPFLAGS LDFLAGS=$LDFLAGS"
 
   # Make sure pkg-config finds our build first.
