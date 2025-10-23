@@ -1699,8 +1699,14 @@ prefer_openssl3() {
 }
 
 build_package_mac_zstd() {
-      package_option zstd configure --disable-shared
-      build_package_standard "$@"
+    local package_name="$1"
+
+    ( cd "$package_name" && \
+      ${MAKE:-make} -C lib libzstd.a CFLAGS="${CFLAGS} -fPIC" && \
+      ${MAKE:-make} -C programs PREFIX="$PREFIX_PATH" install && \
+      cp lib/libzstd.a "$PREFIX_PATH/lib/" && \
+      cp lib/zstd.h lib/zdict.h lib/zstd_errors.h "$PREFIX_PATH/include/" \
+    ) >&4 2>&1
 }
 
 build_package_mac_readline() {
