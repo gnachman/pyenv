@@ -1717,7 +1717,7 @@ build_package_mac_readline() {
 }
 
 build_package_mac_gdbm() {
-    package_option gdbm configure --disable-shared
+    package_option gdbm configure --disable-shared --without-readline
     build_package_standard "$@"
 }
 
