@@ -2,7 +2,7 @@ export KEEP_BUILD_PATH=1
 prefer_openssl3
 export PYTHON_BUILD_CONFIGURE_WITH_OPENSSL=1
 install_package "openssl-3.6.0" "https://github.com/openssl/openssl/releases/download/openssl-3.6.0/openssl-3.6.0.tar.gz#b6a5f44b7eb69e3fa35dbf15524405b44837a481d43d81daddde3ff21fcbb8e9" mac_openssl --if has_broken_mac_openssl
-install_package "readline-8.3" "http://ftpmirror.gnu.org/readline/readline-8.3.tar.gz#fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc" mac_readline --if has_broken_mac_readline
+install_package "readline-8.3" "http://ftpmirror.gnu.org/readline/readline-8.3.tar.gz#fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc" mac_readline
 
 install_package gdbm-1.26 "https://ftpmirror.gnu.org/gdbm/gdbm-1.26.tar.gz" mac_gdbm
 install_package sqlite-autoconf-3290000 "https://www.sqlite.org/2019/sqlite-autoconf-3290000.tar.gz" mac_sqlite
