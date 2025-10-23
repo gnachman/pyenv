@@ -1846,7 +1846,7 @@ build_package_mac_openssl() {
 
   # Hint OpenSSL that we prefer a 64-bit build.
   export KERNEL_BITS="64"
-  OPENSSL_CONFIGURE="${OPENSSL_CONFIGURE:-./config}"
+  OPENSSL_CONFIGURE="${OPENSSL_CONFIGURE:-./Configure darwin64-x86_64-cc}"
 
   local nokerberos
   [[ "$1" != openssl-1.0.* ]] || nokerberos=1
