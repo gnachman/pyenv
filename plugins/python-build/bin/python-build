@@ -922,6 +922,13 @@ build_package_standard_build() {
 
     use_dsymutil || true
     use_free_threading || true
+
+    # Python 3.13+ uses a new configure system that requires explicit
+    # specification of readline's library dependencies via LIBREADLINE_LIBS
+    if configured_with_package_dir "python" "readline/rlconf.h"; then
+      # We built our own readline, so tell Python it needs ncurses too
+      export LIBREADLINE_LIBS="-lreadline -lncurses"
+    fi
   fi
 
   ( if [[ -n "${!PACKAGE_CFLAGS}" ]]; then
